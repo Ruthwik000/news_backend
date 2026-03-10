@@ -134,10 +134,8 @@ class FirestoreService:
             if category:
                 query = query.where("category", "==", category)
             
-            # Filter active items
-            query = query.where("is_active", "==", True)
-            
-            # Order by creation date (newest first)
+            # For testing, let's simplify the query to avoid index requirements
+            # Just order by created_at without the is_active filter for now
             query = query.order_by("created_at", direction=firestore.Query.DESCENDING)
             
             # Limit results
@@ -149,8 +147,11 @@ class FirestoreService:
             news_items = []
             for doc in docs:
                 try:
-                    news_item = self._dict_to_news_item(doc.id, doc.to_dict())
-                    news_items.append(news_item)
+                    doc_data = doc.to_dict()
+                    # Filter active items in code instead of query
+                    if doc_data.get("is_active", True):
+                        news_item = self._dict_to_news_item(doc.id, doc_data)
+                        news_items.append(news_item)
                 except Exception as e:
                     logger.error(f"Error converting document {doc.id}: {e}")
                     continue
