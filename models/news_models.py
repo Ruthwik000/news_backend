@@ -33,7 +33,7 @@ class NewsItem(BaseModel):
     # Additional fields for different categories
     commodity: Optional[str] = None  # For price category
     variety: Optional[str] = None    # For price category
-    price: Optional[float] = None    # For price category
+    price: Optional[str] = None      # For price category (changed to string)
     unit: Optional[str] = None       # For price category
     market: Optional[str] = None     # For price category
     change: Optional[str] = None     # For price category

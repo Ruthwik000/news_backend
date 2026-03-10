@@ -319,7 +319,7 @@ class FirestoreService:
             "category": news_item.category.value,
             "source": news_item.source,
             "url": news_item.url,
-            "image_url": news_item.image_url,
+            "imageUrl": news_item.imageUrl,  # Changed to camelCase
             "date": news_item.date,
             "is_active": news_item.is_active,
             "created_at": news_item.created_at or firestore.SERVER_TIMESTAMP,
@@ -332,7 +332,7 @@ class FirestoreService:
         if news_item.variety:
             data["variety"] = news_item.variety
         if news_item.price:
-            data["price"] = news_item.price
+            data["price"] = str(news_item.price)  # Ensure string format
         if news_item.unit:
             data["unit"] = news_item.unit
         if news_item.market:
@@ -381,7 +381,7 @@ class FirestoreService:
             "category": NewsCategory(data.get("category", "news")),
             "source": data.get("source", ""),
             "url": data.get("url", ""),
-            "image_url": data.get("image_url"),
+            "imageUrl": data.get("imageUrl") or data.get("image_url"),  # Support both formats
             "date": data.get("date", ""),
             "is_active": data.get("is_active", True),
             "created_at": data.get("created_at"),
